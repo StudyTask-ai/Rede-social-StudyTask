@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyTask - Redes Sociais 2024</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            font-family: 'Arial', sans-serif;
+            overflow-x: hidden;
+            transition: background-color 0.3s, color 0.3s, font-family 0.3s;
+        }
+
+        .navbar {
+            width: 100%;
+            background-color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+            transition: background-color 0.3s;
+        }
+
+        .menu-icon {
+            position: absolute;
+            left: 20px;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        .menu-icon:hover {
+            opacity: 0.7;
+        }
+
+        .navbar-center {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .navbar-logo {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #1da1f2;
+            margin-top: 5px;
+            display: block;
+            transition: color 0.3s;
+        }
+
+        .loading-text {
+            position: absolute;
+            top: 50px;
+            font-size: 1em;
+            color: #007bb5;
+            opacity: 0;
+            transition: opacity 0.3s;
+            white-space: nowrap;
+        }
+
+        .app-icon {
+            width: 40px;
+            height: 40px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: row;
+            margin-top: 60px;
+            padding: 10px;
+            max-width: 1200px;
+            margin: 60px auto 0;
+            transition: background-color 0.3s;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #ffffff;
+            position: fixed;
+            top: 60px;
+            left: 0;
+            height: calc(100% - 60px);
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            transition: transform 0.3s, background-color 0.3s;
+            transform: translateX(-100%);
+            overflow-y: auto;
+        }
+
+        .sidebar.open {
+            transform: translateX(0);
+        }
+
+        .sidebar-item {
+            margin: 20px 0;
+            font-size: 1.1em;
+            color: #1da1f2;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .sidebar-item:hover {
+            color: #007bb5;
+        }
+
+        .sidebar-item i {
+            margin-right: 10px;
+        }
+
+        .feed {
+            flex-grow: 1;
+            max-width: 600px;
+            margin-left: 270px;
+            padding: 15px;
+            transition: background-color 0.3s;
+        }
+
+        .tweet {
+            background-color: #ffffff;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .tweet-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tweet-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #ccc;
+            flex-shrink: 0;
+        }
+
+        .tweet-user {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .tweet-content {
+            color: #333;
+        }
+
+        .tweet-image {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .tweet-footer {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #657786;
+        }
+
+        .button {
+            cursor: pointer;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .button:hover {
+            color: #1da1f2;
+        }
+
+        .message-box {
+            position: fixed;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #ffcccc;
+            color: #900;
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: none;
+            z-index: 1000;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .navbar-logo {
+                font-size: 1.2em;
+            }
+
+            .container {
+                flex-direction: column;
+            }
+
+            .feed {
+                margin-left: 0;
+            }
+
+            .sidebar {
+                width: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <i id="menu-icon" class="fas fa-bars menu-icon" onclick="toggleSidebar()"></i>
+        <div class="navbar-center">
+            <img src="https://raw.githubusercontent.com/Luanzinh0fc/Luanzinh0fc-Banco-de-dados-p-blicos/main/1000008714-removebg.png" alt="App Icon" class="app-icon">
+            <span class="navbar-logo" id="appLogo">StudyTask</span>
+            <span class="loading-text" id="loadingText"></span>
+        </div>
+    </div>
+
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-item" onclick="showContent('profile')"><i class="fas fa-user"></i> Perfil</div>
+        <div class="sidebar-item" onclick="showContent('comments')"><i class="fas fa-comments"></i> Comentários</div>
+        <div class="sidebar-item" onclick="showContent('posts')"><i class="fas fa-pen"></i> Publicações</div>
+        <div class="sidebar-item" onclick="showContent('recent-activities')"><i class="fas fa-clock"></i> Atividades Recentes</div>
+        <div class="sidebar-item" onclick="showContent('settings')"><i class="fas fa-cog"></i> Configuração</div>
+    </div>
+
+    <div class="container">
+        <div class="feed">
+            <div class="tweet">
+                <div class="tweet-header">
+                    <div class="tweet-avatar"></div>
+                    <div class="tweet-user">Estudante Exemplo</div>
+                </div>
+                <div class="tweet-content">
+                    Este é um exemplo de post no StudyTask. Compartilhe suas ideias e dicas de estudo com a comunidade!
+                </div>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/Bitmap_VS_SVG.svg" alt="Exemplo de Publicação" class="tweet-image">
+                <div class="tweet-footer">
+                    <div class="button" onclick="likePost(this)"><i class="fas fa-thumbs-up"></i> Curtir <span class="like-count">13</span></div>
+                    <div class="button"><i class="fas fa-comment"></i> Comentar</div>
+                    <div class="button"><i class="fas fa-share"></i> Compartilhar</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="message-box" id="messageBox"></div>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const menuIcon = document.getElementById('menu-icon');
+            sidebar.classList.toggle('open');
+            if (sidebar.classList.contains('open')) {
+                menuIcon.classList.remove('fa-bars');
+                menuIcon.classList.add('fa-times');
+            } else {
+                menuIcon.classList.remove('fa-times');
+                menuIcon.classList.add('fa-bars');
+            }
+        }
+
+        function showContent(section) {
+            displayMessage(`Você clicou em: ${section}`);
+            if (section === 'settings') {
+                window.location.href = 'https://studytask-ai.github.io/Configura-o-do-StudyTask-Rede-Social-/';
+            }
+        }
+
+        function likePost(element) {
+            const likeCountElement = element.querySelector('.like-count');
+            let likeCount = parseInt(likeCountElement.textContent, 10);
+            likeCountElement.textContent = likeCount + 1;
+        }
+
+        function displayMessage(message) {
+            const messageBox = document.getElementById('messageBox');
+            messageBox.textContent = message;
+            messageBox.style.display = 'block';
+            setTimeout(() => {
+                messageBox.style.display = 'none';
+            }, 3000);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const theme = localStorage.getItem('theme') || 'default';
+            applyTheme(theme);
+        });
+
+        function applyTheme(theme) {
+            const body = document.body;
+            body.className = '';
+
+            if (theme !== 'default') {
+                body.classList.add('dark-theme');
+            }
+            
+            const colorMap = {
+                'black': '#000',
+                'dark-gray': '#1c1c1c',
+                'charcoal': '#333',
+                'onyx': '#353839',
+                'midnight': '#2c3e50',
+                'jet': '#343434',
+                'eerie': '#1b1b1b',
+                'raisin': '#2e2e2e',
+                'outer-space': '#414a4c',
+                'dim-gray': '#696969',
+                'davys-gray': '#555555',
+                'charcoal-gray': '#4a4a4a',
+                'gunmetal': '#2a3439',
+                'black-coral': '#54626f'
+            };
+
+            body.style.backgroundColor = colorMap[theme] || '#e1e8ed';
+        }
+    </script>
+</body>
+</html>
