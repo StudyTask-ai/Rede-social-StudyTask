@@ -13,12 +13,14 @@
             height: 100%;
             font-family: 'Arial', sans-serif;
             overflow-x: hidden;
-            transition: background-color 0.3s, color 0.3s, font-family 0.3s;
+            transition: background-color 0.3s, color 0.3s;
+            background-color: #000;
+            color: #fff;
         }
 
         .navbar {
             width: 100%;
-            background-color: #ffffff;
+            background-color: inherit;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -86,7 +88,7 @@
 
         .sidebar {
             width: 250px;
-            background-color: #ffffff;
+            background-color: inherit;
             position: fixed;
             top: 60px;
             left: 0;
@@ -114,10 +116,6 @@
             color: #007bb5;
         }
 
-        .sidebar-item i {
-            margin-right: 10px;
-        }
-
         .feed {
             flex-grow: 1;
             max-width: 600px;
@@ -127,7 +125,7 @@
         }
 
         .tweet {
-            background-color: #ffffff;
+            background-color: #222;
             padding: 15px;
             margin-bottom: 15px;
             border-radius: 15px;
@@ -154,11 +152,11 @@
 
         .tweet-user {
             font-weight: bold;
-            color: #333;
+            color: #fff;
         }
 
         .tweet-content {
-            color: #333;
+            color: #fff;
         }
 
         .tweet-image {
@@ -263,15 +261,7 @@
     <script>
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
-            const menuIcon = document.getElementById('menu-icon');
             sidebar.classList.toggle('open');
-            if (sidebar.classList.contains('open')) {
-                menuIcon.classList.remove('fa-bars');
-                menuIcon.classList.add('fa-times');
-            } else {
-                menuIcon.classList.remove('fa-times');
-                menuIcon.classList.add('fa-bars');
-            }
         }
 
         function showContent(section) {
@@ -297,36 +287,18 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            const theme = localStorage.getItem('theme') || 'default';
+            const theme = localStorage.getItem('theme') || 'dark';
             applyTheme(theme);
         });
 
         function applyTheme(theme) {
-            const body = document.body;
-            body.className = '';
-
-            if (theme !== 'default') {
-                body.classList.add('dark-theme');
+            if (theme === 'dark') {
+                document.body.style.backgroundColor = '#000';
+                document.body.style.color = '#fff';
+            } else {
+                document.body.style.backgroundColor = '#fff';
+                document.body.style.color = '#000';
             }
-            
-            const colorMap = {
-                'black': '#000',
-                'dark-gray': '#1c1c1c',
-                'charcoal': '#333',
-                'onyx': '#353839',
-                'midnight': '#2c3e50',
-                'jet': '#343434',
-                'eerie': '#1b1b1b',
-                'raisin': '#2e2e2e',
-                'outer-space': '#414a4c',
-                'dim-gray': '#696969',
-                'davys-gray': '#555555',
-                'charcoal-gray': '#4a4a4a',
-                'gunmetal': '#2a3439',
-                'black-coral': '#54626f'
-            };
-
-            body.style.backgroundColor = colorMap[theme] || '#e1e8ed';
         }
     </script>
 </body>
