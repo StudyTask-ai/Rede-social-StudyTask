@@ -13,18 +13,28 @@
             height: 100%;
             font-family: 'Arial', sans-serif;
             overflow-x: hidden;
+            background-color: var(--bg-color, #f0f0f0);
+            color: var(--text-color, #333);
             transition: background-color 0.3s, color 0.3s;
-            background-color: #000;
-            color: #fff;
+            scroll-behavior: smooth;
+        }
+
+        :root {
+            --bg-color-light: #f0f0f0;
+            --text-color-light: #333;
+            --bg-color-dark: #000;
+            --text-color-dark: #fff;
+            --primary-color: #1da1f2;
+            --secondary-color: #657786;
         }
 
         .navbar {
             width: 100%;
-            background-color: inherit;
+            background-color: var(--navbar-bg, #fff);
             display: flex;
             align-items: center;
-            justify-content: center;
-            padding: 10px 0;
+            justify-content: space-between;
+            padding: 10px 20px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             position: fixed;
             top: 0;
@@ -32,100 +42,36 @@
             transition: background-color 0.3s;
         }
 
-        .menu-icon {
-            position: absolute;
-            left: 20px;
-            width: 40px;
-            height: 40px;
+        .menu-icon, .theme-icon {
+            width: 30px;
+            height: 30px;
             cursor: pointer;
-            transition: opacity 0.3s;
-        }
-
-        .menu-icon:hover {
-            opacity: 0.7;
-        }
-
-        .navbar-center {
-            display: flex;
-            align-items: center;
-            flex-direction: column;
-            position: relative;
         }
 
         .navbar-logo {
             font-size: 1.5em;
             font-weight: bold;
-            color: #1da1f2;
-            margin-top: 5px;
-            display: block;
-            transition: color 0.3s;
-        }
-
-        .loading-text {
-            position: absolute;
-            top: 50px;
-            font-size: 1em;
-            color: #007bb5;
-            opacity: 0;
-            transition: opacity 0.3s;
-            white-space: nowrap;
-        }
-
-        .app-icon {
-            width: 40px;
-            height: 40px;
+            color: var(--primary-color);
+            margin: 0;
         }
 
         .container {
             display: flex;
-            flex-direction: row;
+            flex-direction: column;
             margin-top: 60px;
-            padding: 10px;
-            max-width: 1200px;
-            margin: 60px auto 0;
-            transition: background-color 0.3s;
-        }
-
-        .sidebar {
-            width: 250px;
-            background-color: inherit;
-            position: fixed;
-            top: 60px;
-            left: 0;
-            height: calc(100% - 60px);
-            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
             padding: 20px;
-            transition: transform 0.3s, background-color 0.3s;
-            transform: translateX(-100%);
-            overflow-y: auto;
-        }
-
-        .sidebar.open {
-            transform: translateX(0);
-        }
-
-        .sidebar-item {
-            margin: 20px 0;
-            font-size: 1.1em;
-            color: #1da1f2;
-            cursor: pointer;
-            transition: color 0.3s;
-        }
-
-        .sidebar-item:hover {
-            color: #007bb5;
+            max-width: 600px;
+            margin: 60px auto 0;
         }
 
         .feed {
             flex-grow: 1;
             max-width: 600px;
-            margin-left: 270px;
             padding: 15px;
-            transition: background-color 0.3s;
         }
 
         .tweet {
-            background-color: #222;
+            background-color: var(--tweet-bg, #fff);
             padding: 15px;
             margin-bottom: 15px;
             border-radius: 15px;
@@ -133,7 +79,11 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
-            transition: background-color 0.3s, color 0.3s;
+            transition: transform 0.3s;
+        }
+
+        .tweet:hover {
+            transform: scale(1.02);
         }
 
         .tweet-header {
@@ -152,154 +102,644 @@
 
         .tweet-user {
             font-weight: bold;
-            color: #fff;
+            color: inherit;
         }
 
         .tweet-content {
-            color: #fff;
-        }
-
-        .tweet-image {
-            width: 100%;
-            height: auto;
-            border-radius: 10px;
+            color: inherit;
+            font-size: 0.95em;
         }
 
         .tweet-footer {
             display: flex;
             justify-content: space-between;
             font-size: 0.9em;
-            color: #657786;
+            color: var(--secondary-color);
+            border-top: 1px solid #e1e8ed;
+            padding-top: 10px;
         }
 
         .button {
             cursor: pointer;
-            transition: color 0.3s;
             display: flex;
             align-items: center;
             gap: 5px;
         }
 
-        .button:hover {
-            color: #1da1f2;
+        .button img {
+            width: 20px;
+            height: 20px;
+            transition: transform 0.3s;
         }
 
-        .message-box {
+        .button:hover img {
+            transform: scale(1.1);
+        }
+
+        .icon-bar {
             position: fixed;
-            bottom: 50px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #ffcccc;
-            color: #900;
-            padding: 10px 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            display: none;
-            z-index: 1000;
+            bottom: 0;
+            width: 100%;
+            background-color: var(--navbar-bg, #fff);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 10px 0;
+            box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s;
         }
 
-        /* Responsividade */
-        @media (max-width: 768px) {
-            .navbar-logo {
-                font-size: 1.2em;
-            }
+        .icon-bar img {
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+        }
 
-            .container {
-                flex-direction: column;
-            }
+        .sidebar {
+            width: 250px;
+            background-color: var(--sidebar-bg, #f8f9fa);
+            position: fixed;
+            top: 60px;
+            left: 0;
+            height: calc(100% - 60px);
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            transform: translateX(-100%);
+            overflow-y: auto;
+            transition: transform 0.3s ease, background-color 0.3s;
+            z-index: 1100;
+        }
 
-            .feed {
-                margin-left: 0;
-            }
+        .sidebar.open {
+            transform: translateX(0);
+        }
 
-            .sidebar {
-                width: 200px;
+        .sidebar-item {
+            margin: 15px 0;
+            font-size: 1.1em;
+            color: #333;
+            cursor: pointer;
+            transition: color 0.3s, background-color 0.3s;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .sidebar-item:hover {
+            color: var(--primary-color);
+            background-color: #e1e8ed;
+        }
+
+        .zoom-container {
+            overflow: hidden;
+            touch-action: pan-y pinch-zoom;
+            position: relative;
+        }
+
+        .zoom-image {
+            width: 100%;
+            height: auto;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .liked {
+            color: red;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1200;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: rgba(0, 0, 0, 0.9);
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 700px;
+            width: 100%;
+            transition: transform 0.3s ease;
+            cursor: grab;
+            touch-action: none;
+        }
+
+        .close-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: var(--primary-color);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            z-index: 1300;
+        }
+
+        .close-button:hover {
+            background-color: #1484c9;
+        }
+
+        .dialog {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1300;
+            width: 80%;
+            max-height: 80%;
+            overflow-y: auto;
+        }
+
+        .dialog.open {
+            display: block;
+        }
+
+        .dialog-header {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .dialog-footer {
+            text-align: right;
+        }
+
+        .dialog-footer button {
+            padding: 5px 10px;
+            border: none;
+            background-color: var(--primary-color);
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .dialog-footer button:hover {
+            background-color: #1484c9;
+        }
+
+        .dialog-input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        /* Estilos para a lista de pastas e arquivos salvos */
+        .saved-items {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: var(--tweet-bg, #fff);
+            border-radius: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .image-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .image-grid img {
+            width: calc(33.33% - 10px); /* Três imagens por linha, ajusta conforme necessário */
+            height: auto;
+            max-width: 100px;
+            max-height: 100px;
+            object-fit: cover;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .image-grid img:hover {
+            transform: scale(1.05);
+        }
+
+        .folder {
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .file {
+            margin-left: 20px;
+            color: var(--secondary-color);
+        }
+
+        .saved-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        .saved-item span {
+            color: var(--secondary-color);
+        }
+
+        @media (max-width: 600px) {
+            .image-grid img {
+                width: calc(25% - 10px); /* Quatro imagens por linha em dispositivos móveis */
             }
         }
     </style>
 </head>
 <body>
     <div class="navbar">
-        <i id="menu-icon" class="fas fa-bars menu-icon" onclick="toggleSidebar()"></i>
-        <div class="navbar-center">
-            <img src="https://raw.githubusercontent.com/Luanzinh0fc/Luanzinh0fc-Banco-de-dados-p-blicos/main/1000008714-removebg.png" alt="App Icon" class="app-icon">
-            <span class="navbar-logo" id="appLogo">StudyTask</span>
-            <span class="loading-text" id="loadingText"></span>
-        </div>
+        <img src="https://raw.githubusercontent.com/StudyTask-ai/-cone-da-rede-social-/refs/heads/main/book-alt.png" alt="Book Icon" class="menu-icon" onclick="toggleSidebar()">
+        <span class="navbar-logo">StudyTask</span>
+        <i id="theme-icon" class="fas fa-adjust theme-icon" onclick="toggleBlackTheme()"></i>
     </div>
 
     <div class="sidebar" id="sidebar">
-        <div class="sidebar-item" onclick="showContent('profile')"><i class="fas fa-user"></i> Perfil</div>
-        <div class="sidebar-item" onclick="showContent('comments')"><i class="fas fa-comments"></i> Comentários</div>
-        <div class="sidebar-item" onclick="showContent('posts')"><i class="fas fa-pen"></i> Publicações</div>
-        <div class="sidebar-item" onclick="showContent('recent-activities')"><i class="fas fa-clock"></i> Atividades Recentes</div>
-        <div class="sidebar-item" onclick="showContent('settings')"><i class="fas fa-cog"></i> Configuração</div>
+        <div class="sidebar-item" onclick="showMateria('Português - IV Bimestre')">Português - IV Bimestre</div>
+        <div class="sidebar-item" onclick="showMateria('Redação de Português - IV Bimestre')">Redação de Português - IV Bimestre</div>
+        <div class="sidebar-item" onclick="showMateria('Inglês - IV Bimestre')">Inglês - IV Bimestre</div>
+        <div class="sidebar-item" onclick="showMateria('Matemática - IV Bimestre')">Matemática - IV Bimestre</div>
+        <div class="sidebar-item" onclick="showMateria('Ciências da Natureza - IV Bimestre')">Ciências da Natureza - IV Bimestre</div>
+        <div class="sidebar-item" onclick="showMateria('Ciências Humanas - IV Bimestre')">Ciências Humanas - IV Bimestre</div>
+        <div class="sidebar-item" onclick="showMateria('Educação Física - IV Bimestre')">Educação Física - IV Bimestre</div>
+        <div class="sidebar-item" onclick="showMateria('Qualificação Profissional - IV Bimestre')">Qualificação Profissional - IV Bimestre</div>
     </div>
 
     <div class="container">
-        <div class="feed">
+        <div class="feed" id="feed">
+            <!-- Conteúdo inicial de Português -->
             <div class="tweet">
                 <div class="tweet-header">
                     <div class="tweet-avatar"></div>
-                    <div class="tweet-user">Estudante Exemplo</div>
+                    <div class="tweet-user">Português - IV Bimestre</div>
                 </div>
-                <div class="tweet-content">
-                    Este é um exemplo de post no StudyTask. Compartilhe suas ideias e dicas de estudo com a comunidade!
+                <div class="zoom-container">
+                    <img src="https://raw.githubusercontent.com/StudyTask-ai/16-09-redacao-de-portugues-/refs/heads/main/PORTUGU%C3%8AS%2016.%2009.jpg" alt="Publicação de Português" class="zoom-image" id="zoom-image" onclick="openModal(this.src)">
                 </div>
-                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/Bitmap_VS_SVG.svg" alt="Exemplo de Publicação" class="tweet-image">
+                <div class="tweet-content">Conteúdo relacionado a Português - IV Bimestre.</div>
                 <div class="tweet-footer">
-                    <div class="button" onclick="likePost(this)"><i class="fas fa-thumbs-up"></i> Curtir <span class="like-count">13</span></div>
-                    <div class="button"><i class="fas fa-comment"></i> Comentar</div>
-                    <div class="button"><i class="fas fa-share"></i> Compartilhar</div>
+                    <div class="button" onclick="likeTweet(this)"><img src="https://cdn-icons-png.flaticon.com/512/833/833472.png" alt="Curtir"><span class="like-count"> 17 curtidas</span></div>
+                    <div class="button" onclick="shareImage(this)"><img src="https://cdn-icons-png.flaticon.com/512/929/929610.png" alt="Compartilhar"> Compartilhar</div>
+                    <div class="button" onclick="openSaveActivityDialog('Português - IV Bimestre', 'https://raw.githubusercontent.com/StudyTask-ai/16-09-redacao-de-portugues-/refs/heads/main/PORTUGU%C3%8AS%2016.%2009.jpg')"><img src="https://cdn-icons-png.flaticon.com/512/786/786205.png" alt="Salvar"> Salvar Atividade</div>
                 </div>
             </div>
         </div>
+        <div class="saved-items" id="savedItems">
+            <!-- Placeholder for saved folders and files -->
+        </div>
     </div>
 
-    <div class="message-box" id="messageBox"></div>
+    <div class="icon-bar">
+        <img src="https://github.com/StudyTask-ai/-cone-da-rede-social-/blob/main/home.png?raw=true" alt="Home Icon" onclick="showDialog('Home', 'Você clicou em Home')">
+        <img src="https://raw.githubusercontent.com/StudyTask-ai/-cone-da-rede-social-/refs/heads/main/magnifier.png" alt="Search Icon" onclick="showDialog('Search', 'Você clicou em Search')">
+        <img src="https://cdn-icons-png.flaticon.com/512/786/786205.png" alt="Save Icon" onclick="showSavedActivities()">
+    </div>
+
+    <div id="imageModal" class="modal" style="display: none;">
+        <button class="close-button" onclick="closeModal()">Fechar</button>
+        <img class="modal-content" id="modalImage">
+        <div id="imageDetails" style="color: #fff; text-align: center; margin-top: 10px;"></div>
+    </div>
+
+    <div id="dialog" class="dialog">
+        <div class="dialog-header" id="dialogHeader"></div>
+        <div class="dialog-content" id="dialogContent"></div>
+        <div class="dialog-footer">
+            <button onclick="closeDialog()">Fechar</button>
+        </div>
+    </div>
+
+    <div id="createFolderDialog" class="dialog">
+        <div class="dialog-header">Criar Nova Pasta</div>
+        <input type="text" id="folderNameInput" class="dialog-input" placeholder="Nome da pasta">
+        <div class="dialog-footer">
+            <button onclick="createFolder()">Criar</button>
+            <button onclick="closeCreateFolderDialog()">Cancelar</button>
+        </div>
+    </div>
 
     <script>
+        let savedFolders = JSON.parse(localStorage.getItem('savedFolders')) || {};
+
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             sidebar.classList.toggle('open');
         }
 
-        function showContent(section) {
-            displayMessage(`Você clicou em: ${section}`);
-            if (section === 'settings') {
-                window.location.href = 'https://studytask-ai.github.io/Configura-o-do-StudyTask-Rede-Social-/';
+        function showMateria(materia) {
+            const feed = document.getElementById('feed');
+            feed.innerHTML = `
+                <div class="tweet">
+                    <div class="tweet-header">
+                        <div class="tweet-avatar"></div>
+                        <div class="tweet-user">${materia}</div>
+                    </div>
+                    <div class="zoom-container">
+                        <img src="https://raw.githubusercontent.com/StudyTask-ai/16-09-redacao-de-portugues-/refs/heads/main/PORTUGU%C3%8AS%2016.%2009.jpg" alt="Publicação de ${materia}" class="zoom-image" id="zoom-image" onclick="openModal(this.src)">
+                    </div>
+                    <div class="tweet-content">Conteúdo relacionado a ${materia}.</div>
+                    <div class="tweet-footer">
+                        <div class="button" onclick="likeTweet(this)"><img src="https://cdn-icons-png.flaticon.com/512/833/833472.png" alt="Curtir"><span class="like-count"> 17 curtidas</span></div>
+                        <div class="button" onclick="shareImage(this)"><img src="https://cdn-icons-png.flaticon.com/512/929/929610.png" alt="Compartilhar"> Compartilhar</div>
+                        <div class="button" onclick="openSaveActivityDialog('${materia}', this.closest('.tweet').querySelector('.zoom-image').src)"><img src="https://cdn-icons-png.flaticon.com/512/786/786205.png" alt="Salvar"> Salvar Atividade</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function openModal(src, details) {
+            const modal = document.getElementById('imageModal');
+            const modalImage = document.getElementById('modalImage');
+            const imageDetails = document.getElementById('imageDetails');
+            modalImage.src = src;
+            modal.style.display = "flex";
+
+            imageDetails.textContent = details || '';
+
+            let scale = 1;
+            let panX = 0;
+            let panY = 0;
+            let isPanning = false;
+            let startX = 0;
+            let startY = 0;
+
+            modalImage.style.transform = `scale(1) translate(0px, 0px)`;
+            modalImage.style.cursor = 'grab';
+
+            modalImage.onwheel = (e) => {
+                e.preventDefault();
+                const rect = modalImage.getBoundingClientRect();
+                const offsetX = e.clientX - rect.left;
+                const offsetY = e.clientY - rect.top;
+                const delta = e.deltaY > 0 ? -0.1 : 0.1;
+
+                scale = Math.min(Math.max(1, scale + delta), 4);
+
+                modalImage.style.transformOrigin = `${offsetX / rect.width * 100}% ${offsetY / rect.height * 100}%`;
+                updateTransform();
+            };
+
+            let initialDistance = null;
+
+            modalImage.addEventListener('touchstart', (e) => {
+                if (e.touches.length === 2) {
+                    initialDistance = getDistance(e.touches[0], e.touches[1]);
+                }
+                if (e.touches.length === 1) {
+                    isPanning = true;
+                    startX = e.touches[0].clientX - panX;
+                    startY = e.touches[0].clientY - panY;
+                }
+            });
+
+            modalImage.addEventListener('touchmove', (e) => {
+                if (e.touches.length === 2 && initialDistance !== null) {
+                    const newDistance = getDistance(e.touches[0], e.touches[1]);
+                    const scaleChange = newDistance / initialDistance;
+                    scale = Math.min(Math.max(1, scale * scaleChange), 4);
+                    initialDistance = newDistance;
+                    updateTransform();
+                }
+                if (e.touches.length === 1 && isPanning) {
+                    panX = e.touches[0].clientX - startX;
+                    panY = e.touches[0].clientY - startY;
+                    updateTransform();
+                }
+            });
+
+            modalImage.addEventListener('touchend', (e) => {
+                if (e.touches.length < 2) {
+                    initialDistance = null;
+                }
+                if (e.touches.length === 0) {
+                    endPan();
+                }
+            });
+
+            modalImage.onmousedown = (e) => {
+                if (e.button !== 0) return;
+                isPanning = true;
+                startX = e.clientX - panX;
+                startY = e.clientY - panY;
+            };
+
+            modalImage.onmousemove = (e) => {
+                if (!isPanning) return;
+                panX = e.clientX - startX;
+                panY = e.clientY - startY;
+                updateTransform();
+            };
+
+            modalImage.onmouseup = () => endPan();
+            modalImage.onmouseleave = () => endPan();
+
+            function endPan() {
+                isPanning = false;
+            }
+
+            function updateTransform() {
+                const rect = modalImage.getBoundingClientRect();
+                const maxPanX = ((scale - 1) * rect.width) / (2 * scale);
+                const maxPanY = ((scale - 1) * rect.height) / (2 * scale);
+
+                panX = Math.min(maxPanX, Math.max(-maxPanX, panX));
+                panY = Math.min(maxPanY, Math.max(-maxPanY, panY));
+
+                modalImage.style.transform = `scale(${scale}) translate(${panX}px, ${panY}px)`;
+            }
+
+            function getDistance(touch1, touch2) {
+                return Math.sqrt(
+                    Math.pow(touch2.clientX - touch1.clientX, 2) +
+                    Math.pow(touch2.clientY - touch1.clientY, 2)
+                );
             }
         }
 
-        function likePost(element) {
-            const likeCountElement = element.querySelector('.like-count');
-            let likeCount = parseInt(likeCountElement.textContent, 10);
-            likeCountElement.textContent = likeCount + 1;
+        function closeModal() {
+            const modal = document.getElementById('imageModal');
+            modal.style.display = "none";
         }
 
-        function displayMessage(message) {
-            const messageBox = document.getElementById('messageBox');
-            messageBox.textContent = message;
-            messageBox.style.display = 'block';
-            setTimeout(() => {
-                messageBox.style.display = 'none';
-            }, 3000);
+        function likeTweet(button) {
+            const likeCountElement = button.querySelector('.like-count');
+            let likes = parseInt(likeCountElement.textContent);
+
+            if (!button.classList.contains('liked')) {
+                likes++;
+                likeCountElement.textContent = `${likes} curtidas`;
+                button.classList.add('liked');
+            }
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const theme = localStorage.getItem('theme') || 'dark';
-            applyTheme(theme);
-        });
+        function shareImage(button) {
+            const tweetElement = button.closest('.tweet');
+            const imageElement = tweetElement.querySelector('.zoom-image');
+            const imageUrl = imageElement.src;
 
-        function applyTheme(theme) {
-            if (theme === 'dark') {
-                document.body.style.backgroundColor = '#000';
-                document.body.style.color = '#fff';
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Confira esta imagem!',
+                    text: 'Dê uma olhada nesta imagem incrível:',
+                    url: imageUrl
+                }).then(() => {
+                    showDialog('Compartilhar', 'Compartilhamento bem-sucedido');
+                }).catch((error) => {
+                    showDialog('Erro', 'Erro no compartilhamento');
+                });
             } else {
-                document.body.style.backgroundColor = '#fff';
-                document.body.style.color = '#000';
+                navigator.clipboard.writeText(imageUrl).then(() => {
+                    showDialog('Compartilhar', 'Link da imagem copiado para a área de transferência!');
+                }, (err) => {
+                    showDialog('Erro', 'Erro ao copiar o link');
+                });
             }
         }
+
+        function toggleBlackTheme() {
+            const isDark = document.body.classList.toggle('black-theme');
+            document.body.style.setProperty('--bg-color', isDark ? 'var(--bg-color-dark)' : 'var(--bg-color-light)');
+            document.body.style.setProperty('--text-color', isDark ? 'var(--text-color-dark)' : 'var(--text-color-light)');
+            document.querySelectorAll('.navbar, .icon-bar, .sidebar, .tweet').forEach(el => {
+                el.style.setProperty('--navbar-bg', isDark ? '#333' : '#fff');
+                el.style.setProperty('--tweet-bg', isDark ? '#222' : '#fff');
+                el.style.setProperty('--sidebar-bg', isDark ? '#222' : '#fff');
+            });
+        }
+
+        function openCreateFolderDialog() {
+            const dialog = document.getElementById('createFolderDialog');
+            dialog.classList.add('open');
+        }
+
+        function closeCreateFolderDialog() {
+            const dialog = document.getElementById('createFolderDialog');
+            dialog.classList.remove('open');
+        }
+
+        function createFolder() {
+            const folderNameInput = document.getElementById('folderNameInput');
+            const folderName = folderNameInput.value.trim();
+
+            if (folderName) {
+                if (!savedFolders[folderName]) {
+                    savedFolders[folderName] = [];
+                    saveFoldersToLocalStorage();
+                    updateSavedItems();
+                    showDialog('Nova Pasta', 'Pasta criada com sucesso!');
+                } else {
+                    showDialog('Erro', 'Uma pasta com este nome já existe.');
+                }
+            }
+
+            folderNameInput.value = '';
+            closeCreateFolderDialog();
+        }
+
+        function openSaveActivityDialog(materia, imageUrl) {
+            const folderNames = Object.keys(savedFolders);
+            if (folderNames.length === 0) {
+                showDialog('Erro', 'Nenhuma pasta encontrada. Crie uma pasta primeiro.');
+                return;
+            }
+
+            const dialogContent = document.getElementById('dialogContent');
+            dialogContent.innerHTML = '<div class="dialog-header">Salvar na Pasta</div>';
+
+            folderNames.forEach(folderName => {
+                const button = document.createElement('button');
+                button.textContent = folderName;
+                button.style.margin = '5px';
+                button.onclick = () => {
+                    saveActivity(folderName, materia, imageUrl);
+                    closeDialog();
+                };
+                dialogContent.appendChild(button);
+            });
+
+            const dialog = document.getElementById('dialog');
+            dialog.classList.add('open');
+        }
+
+        function saveActivity(folderName, materia, imageUrl) {
+            const timestamp = new Date().toLocaleString();
+            if (savedFolders[folderName]) {
+                savedFolders[folderName].push({ name: materia, image: imageUrl, timestamp: timestamp });
+                saveFoldersToLocalStorage();
+                updateSavedItems();
+                showDialog('Salvar Arquivo', 'Arquivo salvo com sucesso!');
+            } else {
+                showDialog('Erro', 'Pasta não encontrada.');
+            }
+        }
+
+        function saveFoldersToLocalStorage() {
+            localStorage.setItem('savedFolders', JSON.stringify(savedFolders));
+        }
+
+        function updateSavedItems() {
+            const savedItemsContainer = document.getElementById('savedItems');
+            savedItemsContainer.innerHTML = '';
+            for (const folder in savedFolders) {
+                const folderElement = document.createElement('div');
+                folderElement.className = 'folder';
+                folderElement.textContent = folder;
+
+                savedFolders[folder].forEach(file => {
+                    const fileElement = document.createElement('div');
+                    fileElement.className = 'file';
+                    fileElement.innerHTML = `<img src="${file.image}" alt="${file.name}" style="width: 30px; height: 30px;"> ${file.name}`;
+                    folderElement.appendChild(fileElement);
+                });
+
+                savedItemsContainer.appendChild(folderElement);
+            }
+        }
+
+        function showSavedActivities() {
+            const dialogContent = document.getElementById('dialogContent');
+            dialogContent.innerHTML = '<div class="dialog-header">Atividades Salvas</div><div class="image-grid">';
+
+            for (const folder in savedFolders) {
+                savedFolders[folder].forEach(file => {
+                    dialogContent.innerHTML += `<img src="${file.image}" alt="${file.name}" onclick="openModal('${file.image}', 'Esta foi a imagem que você salvou em: ${file.timestamp}')">`;
+                });
+            }
+
+            dialogContent.innerHTML += '</div>';
+            const dialog = document.getElementById('dialog');
+            dialog.classList.add('open');
+        }
+
+        function showDialog(title, message) {
+            const dialog = document.getElementById('dialog');
+            document.getElementById('dialogHeader').textContent = title;
+            document.getElementById('dialogContent').textContent = message;
+            dialog.classList.add('open');
+        }
+
+        function closeDialog() {
+            const dialog = document.getElementById('dialog');
+            dialog.classList.remove('open');
+        }
+
+        // Inicializa os itens salvos na carga da página
+        document.addEventListener('DOMContentLoaded', updateSavedItems);
     </script>
 </body>
 </html>
